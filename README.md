@@ -20,7 +20,7 @@ Latest update: September 4, 2026
 
 ### Homeworks
 
-- [Homework 2](homeworks/homework2): 
+- [Homework 2](homeworks/homework2): First Rendering Algorithm
 
 ### Projects
 
