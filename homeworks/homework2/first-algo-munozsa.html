@@ -38,12 +38,12 @@
 
 <script>
 
-  //we add shapes (like lines) to this canvas
+  // we add shapes (like lines) to this canvas
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
   // an array of objects
-  //    to access the first 'x' coordinate you could type vertices[0].x
+  // to access the first 'x' coordinate you could type vertices[0].x
   let vertices = [ 
     { x:  1,  y: 1,  z: 1},   // A, idx 0
     { x: -1,  y: 1,  z: 1},   // B, idx 1
@@ -55,7 +55,7 @@
     { x: -1,  y: -1, z: -1}   // H, idx 7
   ];
 
-  // an array of the indics for the two vertices in each edge
+  // an array of the indices for the two vertices in each edge
   let edges = [
     [0, 1], //AB
     [0, 2], //AC
@@ -95,15 +95,15 @@
 
        console.log("camera-relative position");
        let camVert = {}; 
-       camVert.x = 0; //**** TO DO
-       camVert.y = 0; //**** TO DO
-       camVert.z = 0; //**** TO DO
+       camVert.x = vertices[v].x - camera.x;
+       camVert.y = vertices[v].y - camera.y;
+       camVert.z = vertices[v].z - camera.z;
        console.log( camVert );
 
-       console.log("projected position"); 
+       console.log("projected position");
        let canvasPos = {};
-       canvasPos.u = 0; //**** TO DO  
-       canvasPos.v = 0; //**** TO DO 
+       canvasPos.u = camVert.x / camVert.z; 
+       canvasPos.v = camVert.y / camVert.z;
        console.log( canvasPos );
 
        console.log("scale and center"); 
