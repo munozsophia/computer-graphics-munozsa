@@ -9,7 +9,7 @@
       margin: 0;
       overflow: hidden;
       background: #050510;
-      color: white;
+      color: rgb(255, 255, 255);
       font-family: Arial, sans-serif;
     }
 
@@ -71,13 +71,11 @@
     [3, 7], //DH
   ];
 
-
   let camera = {x: 0, y: 0, z: -10};
 
+  function draw() {
 
-  function draw(){
-
-    //here we set up and clear the canvas, every draw frame
+    // here we set up and clear the canvas, every draw frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#050510";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -89,7 +87,7 @@
     //- loop through the original vertices (X, Y, Z)
     //- and determine their position in 3D space relative to camera (x, y, z)
     //- then project them onto the 2D plane
-    for(let v = 0; v < vertices.length; v++){   //  you could also write it foreach...
+    for (let v = 0; v < vertices.length; v++){   //  you could also write it foreach...
        console.log("original position:");  //helpful to print things
        console.log( vertices[v] );
 
@@ -102,7 +100,7 @@
 
        console.log("projected position");
        let canvasPos = {};
-       canvasPos.u = camVert.x / camVert.z; 
+       canvasPos.u = camVert.x / camVert.z;
        canvasPos.v = camVert.y / camVert.z;
        console.log( canvasPos );
 
@@ -116,77 +114,79 @@
 
     }
 
-    //loop through the edges
+    // loop through the edges
     //  find the newly computed projected vertices - 2 per edge
     //  draw the line
-    for(let e = 0; e < edges.length; e++){
+    for (let e = 0; e < edges.length; e++) {
       
-      //first vertex
+      // first vertex
       let e1 = edges[e][0]; //idx
-      let u1 = projectedVertices[ e1 ].u; 
-      let v1 = canvas.height - projectedVertices[ e1 ].v;  //TO DO- explain why did I do this?
+      let u1 = projectedVertices[ e1 ].u;
+      // In some graphics systems, the y-coordinate increases downwards. That is why the canvas.height is 
+      // subtracted from the v-coordinate, matching the expected orientation.
+      let v1 = canvas.height - projectedVertices[ e1 ].v;
 
-      //second vertex
+      // second vertex
       let e2 = edges[e][1]; //idx
       let u2 = projectedVertices[ e2 ].u;
-      let v2 = canvas.height - projectedVertices[ e2 ].v;  //TO DO- explain why did I do this?
+      let v2 = canvas.height - projectedVertices[ e2 ].v; // The same adjustment needs to be done for the second v-coordinate.
 
       drawLine(u1, v1, u2, v2);
     }
-
-
-
   }
 
-
-  //This uses a built in 'drawLine' function, provided by the javascript canvas
+  // This uses a built in 'drawLine' function, provided by the javascript canvas
   function drawLine(x1, y1, x2, y2){
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "#33FF33";
 
-    //this is how you draw a line on the canvas 
+    // this is how you draw a line on the canvas 
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
   }
 
-
-  //this is how we detect events- 
-
+  // this is how we detect events-
   // do nothing for now....
     document.addEventListener("keydown", (event) => {
 
       event.preventDefault();
        switch (event.code) {
         case "ArrowUp":
-          //****TO DO: Change camera z position a go closer
+          // Change camera z position go closer
+          camera.z += 0.1;
           console.log("Up arrow pressed");
           draw();
           break;
         case "ArrowDown":
-          //****TO DO: Change camera z position go further away
+          // Change camera z position go further away
+          camera.z -= 0.1;
           console.log("Down arrow pressed");
           draw();
           break;
         case "ArrowLeft":
-          //****TO DO: Change camera x position move left
+          // Change camera x position move left
+          camera.x -= 0.1;
           console.log("Left arrow pressed");
           draw();
           break;
         case "ArrowRight":
-          //****TO DO: Change camera x position move right
+          // Change camera x position move right
+          camera.x += 0.1;
           console.log("Right arrow pressed");
           draw();
           break;
         case "KeyR":
-          //****TO DO: reset camera
+          // reset camera
+          camera.x = 0;
+          camera.y = 0;
+          camera.z = -10;
           console.log("Reset");
           draw();
           break;
         default:
-          return; 
-      
+          return;
       }
     });
 
@@ -196,11 +196,8 @@
     draw();
   }
 
-
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
-
-
 
 </script>
 </body>

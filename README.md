@@ -1,6 +1,6 @@
 # CS5160 - Computer Graphics I
 
-## Dr. Jillian Aurisano
+## Instructor: Dr. Jillian Aurisano
 
 ## Student
 
