@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project 1</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="objects.js" defer></script>
+        <script src="camera.js" defer></script>
+        <script src="input.js" defer></script>
+        <script src="render-level1.js" defer></script>
+        <script src="render-level2.js" defer></script>
+        <script src="render-level3.js" defer></script>
+        <script src="main.js" defer></script>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <div id="info">
+            <b>Project 1: Basic Rendering</b><br>
+            Arrow Keys: move &middot; Space: fire &middot; R: reset
+        </div>
+
+        <div id="level-controls">
+            <button onclick="setLevel(1)">Level 1: Lines</button>
+            <button onclick="setLevel(2)">Level 2: Pixels</button>
+            <button onclick="setLevel(3)">Level 3: Triangles</button>
+        </div>
+    </body>
+</html>

@@ -53,17 +53,17 @@ camera.z = -10;
 
 ### Result
 
-![3D Rendered Cube](../../images/hw2-rendered-cube.png)
+![3D Rendered Cube](images/hw2-rendered-cube.png)
 *3D Rendered Cube*
 
-![Camera is Close to Cube](../../images/hw2-camera-closer.png)
+![Camera is Close to Cube](images/hw2-camera-closer.png)
 *Camera is Close to Cube*
 
-![Camera is Far from Cube](../../images/hw2-camera-farther.png)
+![Camera is Far from Cube](images/hw2-camera-farther.png)
 *Camera is Far from Cube*
 
-![Camera is Left of Cube](../../images/hw2-camera-left.png)
+![Camera is Left of Cube](images/hw2-camera-left.png)
 *Camera is Left of Cube*
 
-![Camera is Right of Cube](../../images/hw2-camera-right.png)
+![Camera is Right of Cube](images/hw2-camera-right.png)
 *Camera is Right of Cube*

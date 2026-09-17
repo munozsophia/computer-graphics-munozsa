@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #050510;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#level-controls {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+#level-controls button {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#level-controls button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
