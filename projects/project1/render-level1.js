@@ -39,9 +39,11 @@ function drawLevel1(ctx, canvas) {
         // determines the position in 3D space relative to camera (x, y, z)
         // then project them onto the 2D plane
         for (let v = 0; v < transformedVertices.length; v++) {
-            let canvasPos = projectVertex(transformedVertices[v], canvas.width, canvas.height);
-            projectedVertices.push(canvasPos);
+            //let canvasPos = projectVertex(transformedVertices[v], canvas.width, canvas.height);
+            projectedVertices.push(toCameraSpace(transformedVertices[v]));
         }
+
+        const NEAR_PLANE = 0.1;
 
         // loop through the edges
         // find the newly computed projected vertices - 2 per edge
@@ -49,16 +51,39 @@ function drawLevel1(ctx, canvas) {
         for (let e = 0; e < edges.length; e++) {
             // first vertex
             let e1 = edges[e][0]; // idx
-            let p1 = projectedVertices[ e1 ];
+            let camA = projectedVertices[ e1 ];
 
             // second vertex
             let e2 = edges[e][1]; // idx
-            let p2 = projectedVertices[ e2 ];
+            let camB = projectedVertices[ e2 ];
 
-            // p#.z is the vertex depth relative to camera
-            // if not positive, the vertex is behind camera
-            // skip drawing the edge
-            if (p1.z <= 0 || p2.z <= 0) { continue; }
+            if (camA.z <= NEAR_PLANE && camB.z <= NEAR_PLANE) { continue; }
+
+            // used linear interpolation to fix disappearing edges after certain camera position
+            let pointA = camA;
+            let pointB = camB;
+
+            if (pointA.z <= NEAR_PLANE) {
+                let t = (NEAR_PLANE - pointA.z) / (pointB.z - pointA.z);
+
+                pointA = {
+                    x: pointA.x + (pointB.x - pointA.x) * t,
+                    y: pointA.y + (pointB.y - pointA.y) * t,
+                    z: NEAR_PLANE
+                };
+
+            } else if (pointB.z <= NEAR_PLANE) {
+                let t = (NEAR_PLANE - pointB.z) / (pointA.z - pointB.z);
+
+                pointB = {
+                    x: pointB.x + (pointA.x - pointB.x) * t,
+                    y: pointB.y + (pointA.y - pointB.y) * t,
+                    z: NEAR_PLANE
+                };
+            }
+
+            let p1 = projectCameraSpace(pointA, canvas.width, canvas.height);
+            let p2 = projectCameraSpace(pointB, canvas.width, canvas.height);
 
             let u1 = p1.u;
             let u2 = p2.u;
@@ -77,7 +102,7 @@ function drawLevel1(ctx, canvas) {
 // This uses a built in 'drawLine' function, provided by the javascript canvas
 function drawLine(ctx, x1, y1, x2, y2, color) {
     ctx.lineWidth = 2;
-    ctx.strokeStyle = color || "#33FF33";
+    ctx.strokeStyle = color;
 
     // this is how you draw a line on the canvas
     ctx.beginPath();
