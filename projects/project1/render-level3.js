@@ -49,7 +49,7 @@ function drawTriangle(A, B, C) {
     }
 }
 
-function drawLevel2(ctx, canvas) {
+function drawLevel3(ctx, canvas) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#050510";
     ctx.fillRect(0, 0, canvas.width, canvas.height);

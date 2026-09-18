@@ -48,14 +48,15 @@ const ctx = canvas.getContext("2d");
 // TODO: add button to toggle between levels
 let level = 1;
 
-function setLevel(newLevel) {
-    level = newLevel;
+function setLevel(change) {
+    level = change;
     draw();
 }
 
 function draw() {
     floor.position.z = camera.z;
 
+    // used AI to implement this solution
     // regenerate floor grid foward/backward
     for (let i = 0; i < floorGrids.length; i++) {
         let grid = floorGrids[i];

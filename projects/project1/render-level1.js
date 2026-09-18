@@ -35,7 +35,7 @@ function drawLevel1(ctx, canvas) {
         // projected onto our 2d plane
         let projectedVertices = [];
 
-        // loop through transformed vertices (X, Y, z)
+        // loop through transformed vertices (X, Y, Z)
         // determines the position in 3D space relative to camera (x, y, z)
         // then project them onto the 2D plane
         for (let v = 0; v < transformedVertices.length; v++) {
