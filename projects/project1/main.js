@@ -6,9 +6,21 @@ let level = 1;
 let health = 3;
 let score = 0;
 let shots = [];
+let frameCount = 0;
 
 const SHOT_SPEED = 0.3;
 const SHOT_RANGE = 40;
+
+function moveCube() {
+    frameCount += 1;
+
+    for (let i = 0; i < cubes.length; i++) {
+        let cube = cubes[i];
+        if (cube.destroyed) continue;
+
+        cube.position.x = cube.baseX + Math.sin(frameCount * cube.moveSpeed) * cube.moveRange;
+    }
+}
 
 function shoot() {
     let shot = {
@@ -34,11 +46,12 @@ function updateShot() {
             let cube = cubes[j];
             if (cube.destroyed) continue;
 
-            let half = cube.scale;
+            let halfX = typeof cube.scale === "number" ? cube.scale : cube.scale.x;
+            let halfZ = typeof cube.scale === "number" ? cube.scale : cube.scale.z;
 
             if (
-                shot.position.x > cube.position.x - half && shot.position.x < cube.position.x + half &&
-                shot.position.z > cube.position.z - half && shot.position.z < cube.position.z + half
+                shot.position.x > cube.position.x - halfX && shot.position.x < cube.position.x + halfX &&
+                shot.position.z > cube.position.z - halfZ && shot.position.z < cube.position.z + halfZ
             ) {
                 cube.destroyed = true;
                 hit = true;
@@ -64,11 +77,12 @@ function collisionDetection() {
         let cube = cubes[i];
         if (cube.destroyed) continue;
 
-        let half = cube.scale;
+        let halfX = typeof cube.scale === "number" ? cube.scale : cube.scale.x;
+        let halfZ = typeof cube.scale === "number" ? cube.scale : cube.scale.z;
 
         if (
-            camera.x > cube.position.x - half && camera.x < cube.position.x + half &&
-            camera.z > cube.position.z - half && camera.z < cube.position.z + half
+            camera.x > cube.position.x - halfX && camera.x < cube.position.x + halfX &&
+            camera.z > cube.position.z - halfZ && camera.z < cube.position.z + halfZ
         ) {
             health -= 1;
             cube.destroyed = true;
@@ -124,6 +138,7 @@ function setLevel(change) {
 function draw() {
     floor.position.z = camera.z;
     regenerateFloorGrids();
+    moveCube();
     collisionDetection();
     updateShot();
 

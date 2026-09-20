@@ -130,24 +130,33 @@ let octahedrons = [
 let cubes = [
     {
         type: "cube",
-        position: { x: 1.5, y: -2, z: 10 },
-        scale: 1,
+        position: { x: 1.5, y: -1.2, z: 10 },
+        scale: { x: 1, y: 1.8, z: 1 },
         color: cubeColor,
-        destroyed: false
+        destroyed: false,
+        baseX: 1.5,
+        moveRange: 1.5,
+        moveSpeed: 0.02
     },
     {
         type: "cube",
-        position: { x: -1.5, y: -2, z: 20 },
-        scale: 1,
+        position: { x: -1.5, y: -1.2, z: 20 },
+        scale: { x: 1, y: 1.8, z: 1 },
         color: cubeColor,
-        destroyed: false
+        destroyed: false,
+        baseX: -1.5,
+        moveRange: 1.5,
+        moveSpeed: 0.025
     },
     {
         type: "cube",
-        position: { x: 0, y: -2, z: 32 },
-        scale: 1.2,
+        position: { x: 0, y: -0.8, z: 32 },
+        scale: { x: 1.2, y: 2.2, z: 1.2 },
         color: cubeColor,
-        destroyed: false
+        destroyed: false,
+        baseX: 0,
+        moveRange: 2,
+        moveSpeed: 0.018
     }
 ];
 
