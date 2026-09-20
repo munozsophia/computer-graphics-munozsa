@@ -2,60 +2,54 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// const rows = 200;
-// const cols = 320;
-// const pixelGrid = Array.from({ length: cols }, () => Array(rows).fill("#050510"));
-
-// let seePixelOutline = true;
-
-// // light up a couple of pixels
-// setPixelColor(100, 100, "#FFFFFF");
-// setPixelColor(100, 101, "#FFFFFF");
-// setPixelColor(101, 100, "#FFFFFF");
-// setPixelColor(101, 101, "#FFFFFF");
-// setPixelColor(102, 101, "#FFFFFF");
-
-// function draw() {
-//     // here we set up and clear the canvas, every draw frame
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     ctx.fillStyle = "#050510";
-//     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-//     ctx.lineWidth = 1;
-//     ctx.strokeStyle = "#444444";
-
-//     for (v = 0; v < 200; v++) {
-//         for (u = 0; u < 320; u++) {
-//             console.log(u);
-//             console.log(v);
-//             console.log(pixelGrid[u][v]);
-//             console.log("----");
-
-//             ctx.fillStyle = pixelGrid[u][v];
-//             ctx.fillRect(u*5, v*5, 5, 5);
-
-//             if (seePixelOutline) {
-//                 ctx.strokeRect(u*5, v*5, 5, 5);
-//             }
-//         }
-//     }
-// }
-
-// function setPixelColor(u, v, color) {
-//     pixelGrid[u][v] = color;
-// }
-
-// TODO: add button to toggle between levels
 let level = 1;
+let health = 3;
+let score = 0;
 
 function setLevel(change) {
     level = change;
     draw();
 }
 
-function draw() {
-    floor.position.z = camera.z;
+// used MDN article for collisionDetection() function
+// https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Collision_detection
+function collisionDetection() {
+    // user collides with block, loses 1 health
+    for (let i = 0; i < cubes.length; i++) {
+        let cube = cubes[i];
+        if (cube.destroyed) continue;
 
+        let half = cube.scale;
+
+        if (
+            camera.x > cube.position.x - half && camera.x < cube.position.x + half &&
+            camera.z > cube.position.z - half && camera.z < cube.position.z + half
+        ) {
+            health -= 1;
+            cube.destroyed = true;
+            console.log("Hit a block! Health: ", health);
+        }
+    }
+
+    // user collides with diamond, score increases 1
+    for (let i = 0; i < octahedrons.length; i++) {
+        let diamond = octahedrons[i];
+        if (diamond.destroyed) continue;
+
+        let half = diamond.scale;
+
+        if (
+            camera.x > diamond.position.x - half && camera.x < diamond.position.x + half &&
+            camera.z > diamond.position.z - half && camera.z < diamond.position.z + half
+        ) {
+            score += 1;
+            diamond.destroyed = true;
+            console.log("Collected a diamond!", score);
+        }
+    }
+}
+
+function regenerateFloorGrids() {
     // used AI to implement this solution
     // regenerate floor grid foward/backward
     for (let i = 0; i < floorGrids.length; i++) {
@@ -68,6 +62,12 @@ function draw() {
             grid.position.z -= GRID_SPAN;
         }
     }
+}
+
+function draw() {
+    floor.position.z = camera.z;
+    regenerateFloorGrids();
+    collisionDetection();
 
     if (level === 0) {
         drawLevel0(ctx, canvas);

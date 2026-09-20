@@ -80,19 +80,22 @@ let octahedrons = [
         type: "octahedron",
         position: { x: 0, y: 0, z: 14 },
         scale: 0.5,
-        color: octahedronColor
+        color: octahedronColor,
+        destroyed: false
     },
     {
         type: "octahedron",
         position: { x: -0.8, y: -1, z: 25 },
         scale: 0.5,
-        color: octahedronColor
+        color: octahedronColor,
+        destroyed: false
     },
     {
         type: "octahedron",
         position: { x: 0.8, y: -1, z: 38 },
         scale: 0.5,
-        color: octahedronColor
+        color: octahedronColor,
+        destroyed: false
     }
 ];
 
@@ -102,19 +105,22 @@ let cubes = [
         type: "cube",
         position: { x: 1.5, y: -2, z: 10 },
         scale: 1,
-        color: cubeColor
+        color: cubeColor,
+        destroyed: false
     },
     {
         type: "cube",
         position: { x: -1.5, y: -2, z: 20 },
         scale: 1,
-        color: cubeColor
+        color: cubeColor,
+        destroyed: false
     },
     {
         type: "cube",
         position: { x: 0, y: -2, z: 32 },
         scale: 1.2,
-        color: cubeColor
+        color: cubeColor,
+        destroyed: false
     }
 ];
 
