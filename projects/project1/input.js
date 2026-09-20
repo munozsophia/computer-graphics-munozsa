@@ -18,7 +18,7 @@ function handleInput(onChange) {
                 resetCamera();
                 break;
             case "Space":
-                // TODO: toggle shooting
+                shoot();
                 break;
             default:
                 return;
