@@ -12,8 +12,6 @@ const floorEdges = [
     [3, 0]  // DA
 ];
 
-const floorColor = "#2FB8C4";
-
 const floorGridVertices = [
     { x: -1, y: 0, z: 0 }, // A, idx 0
     { x: 1, y: 0, z: 0 }   // B, idx 1
@@ -49,8 +47,56 @@ const cubeEdges = [
     [3, 7]  // DH
 ];
 
-const cubeColor = "#D85A30";
+const octahedronVertices = [
+    { x: 0, y: 1, z: 0 },  // A, idx 0
+    { x: 0, y: -1, z: 0 }, // B, idx 1
+    { x: 1, y: 0, z: 0 },  // C, idx 2
+    { x: 0, y: 0, z: -1 }, // D, idx 3
+    { x: -1, y: 0, z: 0 }, // E, idx 4
+    { x: 0, y: 0, z: 1 },  // F, idx 5
+];
 
+const octahedronEdges = [
+    [0, 2], // AC
+    [0, 3], // AD
+    [0, 4], // AE
+    [0, 5], // AF
+    [1, 2], // BC
+    [1, 3], // BD
+    [1, 4], // BE
+    [1, 5], // BF
+    [2, 3], // CD
+    [3, 4], // DE
+    [4, 5], // EF
+    [5, 2]  // FC
+];
+
+const cubeColor = "#D85A30";
+const floorColor = "#2FB8C4";
+const octahedronColor = "#7CD957";
+
+let octahedrons = [
+    {
+        type: "octahedron",
+        position: { x: 0, y: 0, z: 14 },
+        scale: 0.5,
+        color: octahedronColor
+    },
+    {
+        type: "octahedron",
+        position: { x: -0.8, y: -1, z: 25 },
+        scale: 0.5,
+        color: octahedronColor
+    },
+    {
+        type: "octahedron",
+        position: { x: 0.8, y: -1, z: 38 },
+        scale: 0.5,
+        color: octahedronColor
+    }
+];
+
+// cube instances
 let cubes = [
     {
         type: "cube",
@@ -103,13 +149,17 @@ for (let i = 0; i < floorGrids.length; i++) {
     instances.push(floorGrids[i]);
 }
 
-// cube instances
 for (let i = 0; i < cubes.length; i++) {
     instances.push(cubes[i]);
+}
+
+for (let i = 0; i < octahedrons.length; i++) {
+    instances.push(octahedrons[i]);
 }
 
 const OBJECT_TYPES = {
     floor: { vertices: floorVertices, edges: floorEdges },
     floorGrid: { vertices: floorGridVertices, edges: floorGridEdges },
-    cube: { vertices: cubeVertices, edges: cubeEdges }
+    cube: { vertices: cubeVertices, edges: cubeEdges },
+    octahedron: { vertices: octahedronVertices, edges: octahedronEdges}
 };
