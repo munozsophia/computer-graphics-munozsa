@@ -41,5 +41,5 @@ function makePixelatedLine(u1, v1, u2, v2, color){
 }
 ```
 
-![Pixelated Line Drawings](images/activity1-line-drawings.png>)
+![Pixelated Line Drawings](images/activity1-line-drawing.png>)
 *Pixelated Line Drawings*
