@@ -54,6 +54,7 @@ function drawLevel2(ctx, canvas) {
         let objectType = OBJECT_TYPES[instance.type];
 
         if (!objectType) continue;
+        if (instance.destroyed) continue;
 
         let vertices = objectType.vertices;
         let edges = objectType.edges;
