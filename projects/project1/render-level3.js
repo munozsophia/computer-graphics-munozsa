@@ -1,13 +1,14 @@
+// based of computer graphics lecture notes
 function computeFaceShade(vertices, tri) {
     let a = vertices[tri[0]];
     let b = vertices[tri[1]];
     let c = vertices[tri[2]];
 
-    // two edges of the triangle, in the object's own local space
+    // two edges of the triangle, in the object's local space
     let e1 = { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z };
     let e2 = { x: c.x - a.x, y: c.y - a.y, z: c.z - a.z };
 
-    // cross product gives the face's normal direction
+    // compute face normal direction with cross product
     let nx = e1.y * e2.z - e1.z * e2.y;
     let ny = e1.z * e2.x - e1.x * e2.z;
     let nz = e1.x * e2.y - e1.y * e2.x;
@@ -15,7 +16,7 @@ function computeFaceShade(vertices, tri) {
     let len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
     nx /= len; ny /= len; nz /= len;
 
-    // a fixed light direction, coming from above and slightly ahead
+    // fixed light direction
     let lx = 0.3, ly = 0.8, lz = -0.5;
     let llen = Math.sqrt(lx * lx + ly * ly + lz * lz);
     lx /= llen; ly /= llen; lz /= llen;
@@ -68,6 +69,8 @@ function drawTriangle(A, B, C, color) {
     
     // store 1/z per pixel : the higher it is the closer it is to the camera (so basically distance)
     // provides linearity in screen space under perspective projections instead of just z
+    // based solution off Scratchapixel
+    // https://scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/visibility-problem-depth-buffer-depth-interpolation.html
     let inverseA = 1 / A.z;
     let inverseB = 1 / B.z;
     let inverseC = 1 / C.z;
@@ -124,6 +127,9 @@ function intersectNearPlane(a, b) {
     };
 }
 
+// Based off sutherland hodgman algorithm
+// Based implementation off Geeks for Geeks code
+// https://www.geeksforgeeks.org/dsa/polygon-clipping-sutherland-hodgman-algorithm/
 function clipTriangleAgainstNearPlane(points) {
     let outputPoints = [];
 
@@ -172,7 +178,8 @@ function drawLevel3(ctx, canvas) {
         let scaleY = typeof instance.scale === "number" ? instance.scale : instance.scale.y;
         let scaleZ = typeof instance.scale === "number" ? instance.scale : instance.scale.z;
 
-        // camera-space vertices, NOT clamped - clipping handles the near plane properly now
+        // camera-space vertices
+        // clipping handles the near plane
         let camVertices = [];
         for (let v = 0; v < vertices.length; v++) {
             let transformed = {

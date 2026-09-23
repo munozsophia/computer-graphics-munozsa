@@ -13,7 +13,9 @@ let gameWon = false;
 let startTime = Date.now();
 let noDamageBonus = true;
 let finalScore = 0;
+let shotCooldown = 0;
 
+const SHOT_COOLDOWN_TIME = 75;
 const SHOT_SPEED = 0.3;
 const SHOT_RANGE = 40;
 const BUILDING_MIN_DISTANCE = 15;
@@ -89,6 +91,8 @@ function moveCube() {
 }
 
 function shoot() {
+    if (shotCooldown > 0) return;
+
     let shot = {
         type: "shot",
         position: { x: camera.x, y: camera.y, z: camera.z },
@@ -99,6 +103,8 @@ function shoot() {
 
     shots.push(shot);
     instances.push(shot);
+
+    shotCooldown = SHOT_COOLDOWN_TIME;
 }
 
 function updateShot() {
@@ -139,6 +145,7 @@ function updateShot() {
 // https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Collision_detection
 function collisionDetection() {
     if (cubeCollision > 0) cubeCollision -= 1;
+    if (shotCooldown > 0) shotCooldown -= 1;
 
     // user collides with block, loses 1 health
     for (let i = 0; i < cubes.length; i++) {
