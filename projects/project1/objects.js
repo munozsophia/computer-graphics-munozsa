@@ -323,10 +323,12 @@ for (let i = 0; i < octahedrons.length; i++) {
     instances.push(octahedrons[i]);
 }
 
+const shotTriangles = cubeTriangles;
+
 const OBJECT_TYPES = {
     floor: { vertices: floorVertices, edges: floorEdges, triangles: floorTriangles },
     floorGrid: { vertices: floorGridVertices, edges: floorGridEdges },
     cube: { vertices: cubeVertices, edges: cubeEdges, triangles: cubeTriangles },
     octahedron: { vertices: octahedronVertices, edges: octahedronEdges, triangles: octahedronTriangles },
-    shot: { vertices: shotVertices, edges: shotEdges }
+    shot: { vertices: shotVertices, edges: shotEdges, triangles: shotTriangles }
 };
