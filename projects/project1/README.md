@@ -11,8 +11,6 @@
 - Create a sketch of your envisioned design
 - Describe how you want your game to look or behave
 
-**Theme:** Cyberpunk/Tron
-
 **Concept:** Firewall Run
 
 The main idea is

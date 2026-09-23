@@ -7,9 +7,48 @@ let health = 3;
 let score = 0;
 let shots = [];
 let frameCount = 0;
+let cubeCollision = 0;
+let gameOver = false;
+let gameWon = false;
 
 const SHOT_SPEED = 0.3;
 const SHOT_RANGE = 40;
+
+function winCondition() {
+    for (let i = 0; i < octahedrons.length; i++) {
+        // at least a diamond left (game is not won yet)
+        if (!octahedrons[i].destroyed) return;
+    }
+    gameWon = true;
+    console.log("You collected all the diamonds! You win!");
+}
+
+function resetGame() {
+    camera.x = 0;
+    camera.y = 0;
+    camera.z = -10;
+
+    health = 3;
+    score = 0;
+    gameOver = false;
+    gameWon = false;
+    cubeCollision = 0;
+
+    for (let i = 0; i < cubes.length; i++) {
+        cubes[i].destroyed = false;
+    }
+
+    for (let i = 0; i < octahedrons.length; i++) {
+        octahedrons[i].destroyed = false;
+    }
+
+    for (let i = shots.length - 1; i >= 0; i--) {
+        let idx = instances.indexOf(shots[i]);
+        if (idx !== -1) instances.splice(idx, 1);
+    }
+    shots = [];
+    draw();
+}
 
 function moveCube() {
     frameCount += 1;
@@ -72,6 +111,8 @@ function updateShot() {
 // used MDN article for collisionDetection() function
 // https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Collision_detection
 function collisionDetection() {
+    if (cubeCollision > 0) cubeCollision -= 1;
+
     // user collides with block, loses 1 health
     for (let i = 0; i < cubes.length; i++) {
         let cube = cubes[i];
@@ -84,9 +125,20 @@ function collisionDetection() {
             camera.x > cube.position.x - halfX && camera.x < cube.position.x + halfX &&
             camera.z > cube.position.z - halfZ && camera.z < cube.position.z + halfZ
         ) {
-            health -= 1;
-            cube.destroyed = true;
-            console.log("Hit a block! Health: ", health);
+            let overlapX = halfX - Math.abs(camera.x - cube.position.x);
+            let overlapZ = halfZ - Math.abs(camera.z - cube.position.z);
+
+            if (overlapX < overlapZ) {
+                camera.x += camera.x < cube.position.x ? -overlapX : overlapX;
+            } else {
+                camera.z += camera.z < cube.position.z ? -overlapZ : overlapZ;
+            }
+
+            if (cubeCollision <= 0) {
+                health -= 1;
+                cubeCollision = 30;
+                console.log("Hit a block! Health: ", health);
+            }           
         }
     }
 
@@ -123,6 +175,41 @@ function regenerateFloorGrids() {
     }
 }
 
+function checkEdge() {
+    let halfWidth = floor.scale.x;
+
+    if (camera.x < -halfWidth || camera.x > halfWidth) {
+        gameOver = true;
+        console.log("Game Over! You fell off the floor!");
+    }
+}
+
+function drawGameOver() {
+    ctx.fillStyle = "#240404";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "Red";
+    ctx.font = "48px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+
+    ctx.font = "20px Arial";
+    ctx.fillText("Press R to Try Again", canvas.width / 2, canvas.height / 2 + 40);
+}
+
+function drawWin() {
+    ctx.fillStyle = "#041d08";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#7CD957";
+    ctx.font = "48px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 2);
+
+    ctx.font = "20px Arial";
+    ctx.fillText("Press R to Play Again", canvas.width / 2, canvas.height / 2 + 40);
+}
+
 function gameLoop() {
     draw();
     // used MDN article for requestAnimationFrame() function
@@ -136,10 +223,22 @@ function setLevel(change) {
 }
 
 function draw() {
+    if (gameOver) {
+        drawGameOver();
+        return;
+    }
+
+    if (gameWon) {
+        drawWin();
+        return;
+    }
+
     floor.position.z = camera.z;
     regenerateFloorGrids();
     moveCube();
     collisionDetection();
+    checkEdge();
+    winCondition();
     updateShot();
 
     if (level === 0) {

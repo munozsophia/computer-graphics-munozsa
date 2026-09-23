@@ -1,3 +1,6 @@
+// used Rasterizing Triangle code from
+// https://jtsorlinis.github.io/rendering-tutorial/
+// for edgeFunction() and drawTriangle() functions
 function edgeFunction(a, b, c) {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 };
