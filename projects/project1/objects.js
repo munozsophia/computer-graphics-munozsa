@@ -12,6 +12,10 @@ const floorEdges = [
     [3, 0]  // DA
 ];
 
+const floorTriangles = [
+    [0, 3, 1], [1, 3, 2]
+];
+
 const floorGridVertices = [
     { x: -1, y: 0, z: 0 }, // A, idx 0
     { x: 1, y: 0, z: 0 }   // B, idx 1
@@ -47,6 +51,15 @@ const cubeEdges = [
     [3, 7]  // DH
 ];
 
+const cubeTriangles = [
+    [0, 1, 3], [0, 3, 2], // front +z
+    [4, 7, 5], [4, 6, 7], // back -z
+    [0, 6, 4], [0, 2, 6], // right +x
+    [1, 5, 7], [1, 7, 3], // left -x
+    [0, 4, 5], [0, 5, 1], // top +y
+    [2, 7, 6], [2, 3, 7]  // bottom -y
+];
+
 const octahedronVertices = [
     { x: 0, y: 1, z: 0 },  // A, idx 0
     { x: 0, y: -1, z: 0 }, // B, idx 1
@@ -69,6 +82,11 @@ const octahedronEdges = [
     [3, 4], // DE
     [4, 5], // EF
     [5, 2]  // FC
+];
+
+const octahedronTriangles = [
+    [0, 2, 3], [0, 3, 4], [0, 4, 5], [0, 5, 2], // top 4 faces
+    [1, 3, 2], [1, 4, 3], [1, 5, 4], [1, 2, 5]  // bottom 4 faces
 ];
 
 const shotVertices = [
@@ -275,7 +293,6 @@ for (let i = 0; i < BUILDING_COUNT; i++) {
     let centerY = (topY + BUILDING_BASE_Y) / 2;
 
     let x = side * (floor.scale.x + 15 + Math.random() * 30);
-
     let z = i * BUILDING_SLOT_SIZE + Math.random() * BUILDING_SLOT_SIZE * 0.6;
 
     buildings.push({
@@ -307,9 +324,9 @@ for (let i = 0; i < octahedrons.length; i++) {
 }
 
 const OBJECT_TYPES = {
-    floor: { vertices: floorVertices, edges: floorEdges },
+    floor: { vertices: floorVertices, edges: floorEdges, triangles: floorTriangles },
     floorGrid: { vertices: floorGridVertices, edges: floorGridEdges },
-    cube: { vertices: cubeVertices, edges: cubeEdges },
-    octahedron: { vertices: octahedronVertices, edges: octahedronEdges },
+    cube: { vertices: cubeVertices, edges: cubeEdges, triangles: cubeTriangles },
+    octahedron: { vertices: octahedronVertices, edges: octahedronEdges, triangles: octahedronTriangles },
     shot: { vertices: shotVertices, edges: shotEdges }
 };
