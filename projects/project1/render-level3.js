@@ -48,12 +48,12 @@ function edgeFunction(a, b, c) {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 };
 
-let depthBuffer = Array.from({ length: PIXEL_COLS }, () => Array(PIXEL_ROWS).fill(Infinity));
+let depthBuffer = Array.from({ length: PIXEL_COLS }, () => Array(PIXEL_ROWS).fill(0));
 
 function clearDepthBuffer() {
     for (let u = 0; u < PIXEL_COLS; u++) {
         for (let v = 0; v < PIXEL_ROWS; v++) {
-            depthBuffer[u][v] = Infinity;
+            depthBuffer[u][v] = 0;
         }
     }
 }
@@ -65,6 +65,12 @@ function drawTriangle(A, B, C, color) {
     if (ABC < 0) {
         return;
     }
+    
+    // store 1/z per pixel : the higher it is the closer it is to the camera (so basically distance)
+    // provides linearity in screen space under perspective projections instead of just z
+    let inverseA = 1 / A.z;
+    let inverseB = 1 / B.z;
+    let inverseC = 1 / C.z;
 
     // initialize point
     let P = { x: 0, y: 0 };
@@ -90,10 +96,12 @@ function drawTriangle(A, B, C, color) {
                 let weightB = CAP / ABC;
                 let weightC = ABP / ABC;
 
-                let depth = A.z * weightA + B.z * weightB + C.z * weightC;
+                // interpolate 1/z
+                let inverseDepth = inverseA * weightA + inverseB * weightB + inverseC * weightC;
 
-                if (depth < depthBuffer[P.x][P.y]) {
-                    depthBuffer[P.x][P.y] = depth;
+                // if 1/z is bigger, then object is nearer
+                if (inverseDepth > depthBuffer[P.x][P.y]) {
+                    depthBuffer[P.x][P.y] = inverseDepth;
 
                     // draw the pixel
                     setPixelColor(P.x, P.y, color);
