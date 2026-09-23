@@ -123,6 +123,34 @@ let octahedrons = [
         scale: 0.5,
         color: octahedronColor,
         destroyed: false
+    },
+    {
+        type: "octahedron",
+        position: { x: -1.2, y: 0.5, z: 48 },
+        scale: 0.5,
+        color: octahedronColor,
+        destroyed: false
+    },
+    {
+        type: "octahedron",
+        position: { x: 1.5, y: -0.5, z: 55 },
+        scale: 0.5,
+        color: octahedronColor,
+        destroyed: false
+    },
+    {
+        type: "octahedron",  
+        position: { x: 0, y: 0.8, z: 62 },
+        scale: 0.5,
+        color: octahedronColor,
+        destroyed: false
+    },
+    {
+        type: "octahedron",
+        position: { x: -0.5, y: -0.8, z: 70 },
+        scale: 0.5,
+        color: octahedronColor,
+        destroyed: false
     }
 ];
 
@@ -157,6 +185,48 @@ let cubes = [
         baseX: 0,
         moveRange: 2,
         moveSpeed: 0.018
+    },
+    {
+        type: "cube",
+        position: { x: -1, y: -1.5, z: 45 },
+        scale: { x: 1, y: 1.5, z: 1 },
+        color: cubeColor,
+        destroyed: false,
+        baseX: -1,
+        moveRange: 2.2,
+        moveSpeed: 0.03
+    },
+    {
+        type: "cube",
+        position: { x: 1, y: -1, z: 58 },
+        scale: { x: 1.3, y: 2, z: 1.3 },
+        color: cubeColor,
+        destroyed: false,
+        baseX: 1,
+        moveRange: 1.8,
+        moveSpeed: 0.022
+    },
+    {
+        type: "cube",
+        position: { x: -1.2, y: -1.2, z: 46 },
+        scale: { x: 1, y: 1.8, z: 1 },
+        color: cubeColor,
+        destroyed: false,
+        baseX: -1.2,
+        moveRange: 2.8,
+        moveSpeed: 0.02,
+        movePhase: 0
+    },
+    {
+        type: "cube",
+        position: { x: 1.5, y: -1.2, z: 53 },
+        scale: { x: 1, y: 1.8, z: 1 },
+        color: cubeColor,
+        destroyed: false,
+        baseX: 1.5,
+        moveRange: 2.8,
+        moveSpeed: 0.02,
+        movePhase: Math.PI
     }
 ];
 

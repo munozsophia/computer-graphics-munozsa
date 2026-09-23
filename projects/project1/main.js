@@ -10,6 +10,9 @@ let frameCount = 0;
 let cubeCollision = 0;
 let gameOver = false;
 let gameWon = false;
+let startTime = Date.now();
+let noDamageBonus = true;
+let finalScore = 0;
 
 const SHOT_SPEED = 0.3;
 const SHOT_RANGE = 40;
@@ -19,8 +22,27 @@ function winCondition() {
         // at least a diamond left (game is not won yet)
         if (!octahedrons[i].destroyed) return;
     }
+
     gameWon = true;
+
+    let elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+    let baseScore = score * 100;
+
+    finalScore = baseScore - elapsedSeconds;
+    if (finalScore < 0) finalScore = 0;
+
+    if (noDamageBonus) {
+        finalScore *= 2;
+    }
+
     console.log("You collected all the diamonds! You win!");
+}
+
+function loseCondition() {
+    if (health <= 0) {
+        gameOver = true;
+        console.log("Game Over! Out of health.");
+    }
 }
 
 function resetGame() {
@@ -33,6 +55,9 @@ function resetGame() {
     gameOver = false;
     gameWon = false;
     cubeCollision = 0;
+    startTime = Date.now();
+    noDamageBonus = true;
+    finalScore = 0;
 
     for (let i = 0; i < cubes.length; i++) {
         cubes[i].destroyed = false;
@@ -57,7 +82,8 @@ function moveCube() {
         let cube = cubes[i];
         if (cube.destroyed) continue;
 
-        cube.position.x = cube.baseX + Math.sin(frameCount * cube.moveSpeed) * cube.moveRange;
+        let phase = cube.movePhase || 0;
+        cube.position.x = cube.baseX + Math.sin(frameCount * cube.moveSpeed + phase) * cube.moveRange;
     }
 }
 
@@ -136,6 +162,7 @@ function collisionDetection() {
 
             if (cubeCollision <= 0) {
                 health -= 1;
+                noDamageBonus = false;
                 cubeCollision = 30;
                 console.log("Hit a block! Health: ", health);
             }           
@@ -204,10 +231,33 @@ function drawWin() {
     ctx.fillStyle = "#7CD957";
     ctx.font = "48px Arial";
     ctx.textAlign = "center";
-    ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 2);
+    ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 2 - 20);
 
     ctx.font = "20px Arial";
-    ctx.fillText("Press R to Play Again", canvas.width / 2, canvas.height / 2 + 40);
+    ctx.fillText("Final Score: " + finalScore, canvas.width / 2, canvas.height / 2 + 20);
+    if (noDamageBonus) {
+        ctx.fillText("No Damage Taken - 2x Bonus!", canvas.width / 2, canvas.height / 2 + 50);
+        ctx.fillText("Press R to Play Again", canvas.width / 2, canvas.height / 2 + 80);
+    } else {
+        ctx.fillText("Press R to Play Again", canvas.width / 2, canvas.height / 2 + 50);
+    }
+}
+
+function drawHUD() {
+    let collected = 0;
+    for (let i = 0; i < octahedrons.length; i++) {
+        if (octahedrons[i].destroyed) collected += 1;
+    }
+
+    let elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+
+    ctx.fillStyle = "#F2F2F2";
+    ctx.font = "16px monospace";
+    ctx.textAlign = "left";
+
+    ctx.fillText("Health: " + health, 20, canvas.height - 60);
+    ctx.fillText("Diamonds: " + collected + " / " + octahedrons.length, 20, canvas.height - 40);
+    ctx.fillText("Time: " + elapsedSeconds + "s", 20, canvas.height - 20);
 }
 
 function gameLoop() {
@@ -238,6 +288,7 @@ function draw() {
     moveCube();
     collisionDetection();
     checkEdge();
+    loseCondition();
     winCondition();
     updateShot();
 
@@ -250,6 +301,8 @@ function draw() {
     } else if (level === 3) {
         drawLevel3(ctx, canvas);
     }
+
+    drawHUD();
 }
 
 function resizeCanvas() {

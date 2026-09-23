@@ -11,7 +11,7 @@
 - Create a sketch of your envisioned design
 - Describe how you want your game to look or behave
 
-**Concept:** Firewall Run
+**Concept:** A Simple Point Colletor Game
 
 The main idea is
 
