@@ -101,6 +101,7 @@ const cubeColor = "#D85A30";
 const floorColor = "#2FB8C4";
 const octahedronColor = "#7CD957";
 const shotColor = "#F2F2F2";
+const buildingColor = "#5B4B9A";
 
 let octahedrons = [
     {
@@ -235,6 +236,7 @@ const GRID_SPACE = 3;
 const GRID_SPAN = GRID_COUNT * GRID_SPACE;
 
 let floorGrids = [];
+let buildings = [];
 
 // floor grid instances
 for (let i = 0; i < GRID_COUNT; i++) {
@@ -255,7 +257,42 @@ let floor = {
     color: floorColor
 };
 
-let instances =  [floor];
+const BUILDING_COUNT = 18;
+const BUILDING_SPAN = 150;
+const BUILDING_BASE_Y = floor.position.y - 60;
+const BUILDING_SLOT_SIZE = BUILDING_SPAN / BUILDING_COUNT;
+
+// building instances
+for (let i = 0; i < BUILDING_COUNT; i++) {
+    let side = Math.random() < 0.5 ? -1 : 1;
+
+    let footprint = 1.5 + Math.random() * 2.5;
+
+    let topOffset = -10 + Math.random() * 30;
+    let topY = floor.position.y + topOffset;
+
+    let height = topY - BUILDING_BASE_Y;
+    let centerY = (topY + BUILDING_BASE_Y) / 2;
+
+    let x = side * (floor.scale.x + 15 + Math.random() * 30);
+
+    let z = i * BUILDING_SLOT_SIZE + Math.random() * BUILDING_SLOT_SIZE * 0.6;
+
+    buildings.push({
+        type: "cube",
+        position: { x: x, y: centerY, z: z },
+        scale: { x: footprint, y: height / 2, z: footprint },
+        color: buildingColor
+    });
+}
+
+let instances =  [];
+
+for (let i = 0; i < buildings.length; i++) {
+    instances.push(buildings[i]);
+}
+
+instances.push(floor);
 
 for (let i = 0; i < floorGrids.length; i++) {
     instances.push(floorGrids[i]);

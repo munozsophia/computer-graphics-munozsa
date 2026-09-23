@@ -16,6 +16,7 @@ let finalScore = 0;
 
 const SHOT_SPEED = 0.3;
 const SHOT_RANGE = 40;
+const BUILDING_MIN_DISTANCE = 15;
 
 function winCondition() {
     for (let i = 0; i < octahedrons.length; i++) {
@@ -202,6 +203,19 @@ function regenerateFloorGrids() {
     }
 }
 
+function regenerateBuildings() {
+    for (let i = 0; i < buildings.length; i++) {
+        let building = buildings[i];
+
+        while (building.position.z < camera.z + BUILDING_MIN_DISTANCE) {
+            building.position.z += BUILDING_SPAN;
+        }
+        while (building.position.z > camera.z + BUILDING_MIN_DISTANCE + BUILDING_SPAN) {
+            building.position.z -= BUILDING_SPAN;
+        }
+    }
+}
+
 function checkEdge() {
     let halfWidth = floor.scale.x;
 
@@ -285,6 +299,7 @@ function draw() {
 
     floor.position.z = camera.z;
     regenerateFloorGrids();
+    regenerateBuildings();
     moveCube();
     collisionDetection();
     checkEdge();
