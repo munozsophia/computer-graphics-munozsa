@@ -115,6 +115,35 @@ const shotEdges = [
     [3, 7]  // DH
 ];
 
+// an array of objects
+// to access the first 'x' coordinate you could type vertices[0].x
+let level0Vertices = [ 
+    { x:  1,  y: 1,  z: 1},   // A, idx 0
+    { x: -1,  y: 1,  z: 1},   // B, idx 1
+    { x:  1,  y: -1, z: 1},   // C, idx 2
+    { x: -1,  y: -1, z: 1},   // D, idx 3
+    { x:  1,  y: 1,  z: -1},  // E, idx 4
+    { x: -1,  y: 1,  z: -1},  // F, idx 5
+    { x:  1,  y: -1, z: -1},  // G, idx 6
+    { x: -1,  y: -1, z: -1}   // H, idx 7
+];
+
+// an array of the indices for the two vertices in each edge
+let level0Edges = [
+    [0, 1], //AB
+    [0, 2], //AC
+    [0, 4], //AE
+    [2, 3], //CD
+    [1, 3], //BD
+    [2, 6], //CG
+    [4, 5], //EF
+    [4, 6], //EG
+    [1, 5], //BF
+    [6, 7], //GH
+    [5, 7], //FH
+    [3, 7], //DH
+];
+
 const cubeColor = "#D85A30";
 const floorColor = "#2FB8C4";
 const octahedronColor = "#7CD957";

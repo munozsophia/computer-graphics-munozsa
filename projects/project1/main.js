@@ -290,10 +290,22 @@ function gameLoop() {
 
 function setLevel(change) {
     level = change;
+
+    if (level === 0) {
+        camera.x = 0;
+        camera.y = 0;
+        camera.z = -10;
+    }
+
     draw();
 }
 
 function draw() {
+    if (level === 0) {
+        drawLevel0(ctx, canvas);
+        return;
+    }
+
     if (gameOver) {
         drawGameOver();
         return;
@@ -314,9 +326,7 @@ function draw() {
     winCondition();
     updateShot();
 
-    if (level === 0) {
-        drawLevel0(ctx, canvas);
-    } else if (level === 1) {
+    if (level === 1) {
         drawLevel1(ctx, canvas);
     } else if (level === 2) {
         drawLevel2(ctx, canvas);
