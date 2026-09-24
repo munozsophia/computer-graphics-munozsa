@@ -14,6 +14,7 @@ let startTime = Date.now();
 let noDamageBonus = true;
 let finalScore = 0;
 let shotCooldown = 0;
+let savedCameraPosition = null;
 
 const SHOT_COOLDOWN_TIME = 75;
 const SHOT_SPEED = 0.3;
@@ -289,14 +290,23 @@ function gameLoop() {
 }
 
 function setLevel(change) {
-    level = change;
-
-    if (level === 0) {
+    // set camera state to original starting position for level 0
+    if (change === 0 && level !== 0) {
+        savedCameraPosition = { x: camera.x, y: camera.y, z: camera.z };
+        console.log("Saved:", savedCameraPosition);
         camera.x = 0;
         camera.y = 0;
         camera.z = -10;
+    } else if (change !== 0 && level === 0 && savedCameraPosition) {
+        // change out of level 0 return to original camera position
+        camera.x = savedCameraPosition.x;
+        camera.y = savedCameraPosition.y;
+        camera.z = savedCameraPosition.z;
+        console.log("Restored to:", { x: camera.x, y: camera.y, z: camera.z });
+        savedCameraPosition = null;
     }
 
+    level = change;
     draw();
 }
 
