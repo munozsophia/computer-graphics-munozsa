@@ -16,7 +16,7 @@ Repository's URL: [https://github.com/munozsophia/computer-graphics-munozsa](htt
 
 This is a repository for Sophia Munoz to store all code from the course. The organization of this repository is as follows.
 
-Latest update: September 20, 2026
+Latest update: October 12, 2026
 
 ### Homeworks
 
@@ -25,6 +25,7 @@ Latest update: September 20, 2026
 ### Projects
 
 - [Project 1](projects/project1): Pinhole Camera, Rasterized Display
+- [Project 2](projects/project2): Cube World
 
 ### In-Class Activities
 
