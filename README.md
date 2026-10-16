@@ -1,32 +1,99 @@
-# CS5160 - Computer Graphics I
+# CS5160 · Computer Graphics I
 
-## Instructor: Dr. Jillian Aurisano
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![Canvas API](https://img.shields.io/badge/Canvas_API-555555)
+![WebGL2](https://img.shields.io/badge/WebGL2-990000?logo=webgl&logoColor=white)
 
-## Student
+Coursework for **CS5160 Computer Graphics I** at the University of Cincinnati — building a
+rendering pipeline from the ground up: pinhole projection, line and triangle rasterization,
+depth buffering and shading on the 2D canvas, then moving to the GPU with WebGL2.
 
-**Name**: Sophia Munoz
+| | |
+|---|---|
+| **Instructor** | Dr. Jillian Aurisano |
+| **Student** | Sophia Munoz · [munozsa@mail.uc.edu](mailto:munozsa@mail.uc.edu) |
+| **About me** | Interested in computer graphics and web application development |
+| **Last updated** | October 16, 2026 |
 
-**Email**: [mailto:munozsa@mail.uc.edu](munozsa@mail.uc.edu)
+---
 
-**Short-bio**: Sophia Munoz has interests in Computer Graphics and Web Application development.
+## Featured: Project 1 — Pinhole Camera, Rasterized Display
 
-## Repository Information
+<img src="projects/project1/images/project1-level3-rendered.png" alt="Project 1, Level 3: filled, shaded triangles" width="70%">
 
-Repository's URL: [https://github.com/munozsophia/computer-graphics-munozsa](https://github.com/munozsophia/computer-graphics-munozsa)
+A first-person trench-run minigame: collect every diamond without running out of health.
+The same game is rendered at three levels of fidelity, each written by hand:
 
-This is a repository for Sophia Munoz to store all code from the course. The organization of this repository is as follows.
+| Level | Renderer |
+|:-:|---|
+| 1 | Wireframe with the canvas line API |
+| 2 | 320×200 pixel grid with a DDA line-drawing algorithm |
+| 3 | Filled triangles — edge functions, barycentric coordinates, `1/z` depth buffer, Lambertian shading, Sutherland–Hodgman near-plane clipping |
 
-Latest update: October 12, 2026
+[📖 Full write-up](projects/project1) · [▶️ Watch the demo](https://youtu.be/mena3BZRrkg)
 
-### Homeworks
+---
 
-- [Homework 2](homeworks/homework2): First Rendering Algorithm
+## Coursework
 
 ### Projects
 
-- [Project 1](projects/project1): Pinhole Camera, Rasterized Display
-- [Project 2](projects/project2): Cube World
+| # | Project | Concepts | Status |
+|:-:|---|---|:-:|
+| 1 | [**Pinhole Camera, Rasterized Display**](projects/project1) | Perspective projection, rasterization, z-buffer, clipping, shading, collision detection | ✅ |
+| 2 | [**Cube World**](projects/project2) | WebGL2, a landscape and skyscape built from cube models | 🚧 |
 
-### In-Class Activities
+### Homeworks
 
-- [Activity 1](activities/activity1): Practice Line Drawing
+| # | Homework | Concepts |
+|:-:|---|---|
+| 2 | [**First Rendering Algorithm**](homeworks/homework2) | Rendering a wireframe cube with a pinhole camera; keyboard camera movement |
+
+### In-class activities
+
+| # | Activity | Concepts |
+|:-:|---|---|
+| 1 | [**Practice Line Drawing**](activities/activity1) | Pixelated line rasterization, handling steep slopes and reversed endpoints |
+
+---
+
+## Running the code
+
+Everything runs in the browser — no build step.
+
+```bash
+git clone https://github.com/munozsophia/computer-graphics-munozsa.git
+cd computer-graphics-munozsa
+
+# serve the repo locally, then open the page you want in the browser
+python3 -m http.server 8000
+```
+
+| Open | Page |
+|---|---|
+| `http://localhost:8000/projects/project1/` | Project 1 minigame |
+| `http://localhost:8000/homeworks/homework2/first-algo-munozsa.html` | Homework 2 cube |
+| `http://localhost:8000/activities/activity1/psuedopixel-line-drawing-munozsa.html` | Activity 1 lines |
+
+---
+
+## Repository structure
+
+```text
+computer-graphics-munozsa/
+├── README.md
+├── projects/
+│   ├── project1/      # Pinhole Camera, Rasterized Display (canvas)
+│   └── project2/      # Cube World (WebGL2)
+├── homeworks/
+│   └── homework2/     # First Rendering Algorithm
+└── activities/
+    └── activity1/     # Practice Line Drawing
+```
+
+Each folder has its own README covering goals, process, implementation and results.
+
+---
+
+<sub>Repository: [github.com/munozsophia/computer-graphics-munozsa](https://github.com/munozsophia/computer-graphics-munozsa)</sub>
