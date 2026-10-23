@@ -72,7 +72,7 @@ python3 -m http.server 8000
 
 | Open | Page |
 |---|---|
-| `http://localhost:8000/projects/project1/` | Project 1 minigame |
+| `http://localhost:8000/projects/project1/` | Project 1 Minigame |
 | `http://localhost:8000/homeworks/homework2/first-algo-munozsa.html` | Homework 2 cube |
 | `http://localhost:8000/activities/activity1/psuedopixel-line-drawing-munozsa.html` | Activity 1 lines |
 
