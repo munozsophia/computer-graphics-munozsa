@@ -14,7 +14,7 @@ depth buffering and shading on the 2D canvas, then moving to the GPU with WebGL2
 | **Instructor** | Dr. Jillian Aurisano |
 | **Student** | Sophia Munoz · [munozsa@mail.uc.edu](mailto:munozsa@mail.uc.edu) |
 | **About me** | Interested in computer graphics and web application development |
-| **Last updated** | October 16, 2026 |
+| **Last updated** | October 23, 2026 |
 
 ---
 
@@ -42,7 +42,7 @@ The same game is rendered at three levels of fidelity, each written by hand:
 | # | Project | Concepts | Status |
 |:-:|---|---|:-:|
 | 1 | [**Pinhole Camera, Rasterized Display**](projects/project1) | Perspective projection, rasterization, z-buffer, clipping, shading, collision detection | ✅ |
-| 2 | [**Cube World**](projects/project2) | WebGL2, a landscape and skyscape built from cube models | 🚧 |
+| 2 | [**Cube World**](projects/project2) | WebGL2, a space-themed landscape and skyscape built from cube models (design and checkpoint done, implementation in progress) | 🚧 |
 
 ### Homeworks
 
@@ -55,6 +55,8 @@ The same game is rendered at three levels of fidelity, each written by hand:
 | # | Activity | Concepts |
 |:-:|---|---|
 | 1 | [**Practice Line Drawing**](activities/activity1) | Pixelated line rasterization, handling steep slopes and reversed endpoints |
+| 2 | [**WebGL Cubes**](activities/activity2/webgl-cubes-v3) | WebGL cubes starter activity |
+| 3 | [**Camera Move**](activities/activity3/camera-move) | Moving the camera in WebGL |
 
 ---
 
@@ -73,8 +75,12 @@ python3 -m http.server 8000
 | Open | Page |
 |---|---|
 | `http://localhost:8000/projects/project1/` | Project 1 Minigame |
-| `http://localhost:8000/homeworks/homework2/first-algo-munozsa.html` | Homework 2 cube |
-| `http://localhost:8000/activities/activity1/psuedopixel-line-drawing-munozsa.html` | Activity 1 lines |
+| `http://localhost:8000/homeworks/homework2/first-algo-munozsa.html` | Homework 2 Cube |
+| `http://localhost:8000/activities/activity1/psuedopixel-line-drawing-munozsa.html` | Activity 1 Lines |
+
+The WebGL activities and Project 2 load shaders and image files, so they need to be opened
+through the local server above (not by double-clicking the HTML file). Each WebGL folder may
+also include its own `package.json`; check that folder's README if it has one.
 
 ---
 
@@ -85,11 +91,13 @@ computer-graphics-munozsa/
 ├── README.md
 ├── projects/
 │   ├── project1/      # Pinhole Camera, Rasterized Display (canvas)
-│   └── project2/      # Cube World (WebGL2)
+│   └── project2/      # Cube World (WebGL2) — design checkpoint + starter code
 ├── homeworks/
 │   └── homework2/     # First Rendering Algorithm
 └── activities/
-    └── activity1/     # Practice Line Drawing
+    ├── activity1/     # Practice Line Drawing
+    ├── activity2/     # WebGL Cubes (webgl-cubes-v3)
+    └── activity3/     # Camera Move (camera-move)
 ```
 
 Each folder has its own README covering goals, process, implementation and results.
