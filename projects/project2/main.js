@@ -21,12 +21,23 @@ const levels = [
         setup: setupLevel1,
         update: updateLevel1,
         buildOptions: buildLevel1Options
+    },
+    {
+        name: "Level 2: NASA Moon Data",
+        info: "The same cubes, but each column's height and color are sampled from NASA images of the Moon (a grayscale height map and a matching color photo). Pick a resolution to see how the sampling changes.",
+        setup: setupLevel2,
+        update: updateLevel2,
+        leave: leaveLevel2,
+        buildOptions: buildLevel2Options
     }
 ];
 
 let currentLevel = 0;
 
 function setLevel(index) {
+    if (levels[currentLevel].leave) {
+        levels[currentLevel].leave();
+    }
     currentLevel = index;
     levels[index].setup();
     document.getElementById("level-info").textContent = levels[index].info;
