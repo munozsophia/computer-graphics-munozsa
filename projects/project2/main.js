@@ -10,10 +10,17 @@ const canvas = document.getElementById("glCanvas");
 
 const levels = [
     {
-        name: "Level 0: A Cube",
-        info: "A single 2x2x2 cube.",
+        name: "Level 0: A Single Cube",
+        info: "A single 2x2x2 cube. Its vertex colors come from its corner positions, and the fragment shader blends between them across each face.",
         setup: setupLevel0,
         update: updateLevel0
+    },
+    {
+        name: "Level 1: Procedural Landscape",
+        info: "A grid of cubes: translated into place, stretched in y by a crater procedure, colored by vertex colors (dark base, light top) plus a height tint, and viewed by an orbiting camera.",
+        setup: setupLevel1,
+        update: updateLevel1,
+        buildOptions: buildLevel1Options
     }
 ];
 
@@ -24,18 +31,40 @@ function setLevel(index) {
     levels[index].setup();
     document.getElementById("level-info").textContent = levels[index].info;
 
+    const options  = document.getElementById("level-options");
+    options.innerHTML = "";
+    if (levels[index].buildOptions) {
+        levels[index].buildOptions(options);
+    }
+
     const buttons = document.querySelectorAll("#level-controls button");
     buttons.forEach((button, i) => button.classList.toggle("active", i === index));
 }
 
 function buildLevelButtons() {
     const container = document.getElementById("level-controls");
+
     levels.forEach((level, index) => {
         const button = document.createElement("button");
         button.textContent = level.name;
         button.addEventListener("click", () => setLevel(index));
         container.appendChild(button);
     });
+}
+
+// fps readout to check performance
+let fpsFrames = 0;
+let fpsLastTime = 0;
+
+function updateFps(nowMs) {
+    fpsFrames++;
+
+    if (nowMs - fpsLastTime >= 500) {
+        const fps = Math.round(fpsFrames * 1000 / (nowMs - fpsLastTime));
+        document.getElementById("fps").textContent = fps + " fps";
+        fpsFrames = 0;
+        fpsLastTime = nowMs;
+    }
 }
 
 function frame(nowMs) {
@@ -46,6 +75,7 @@ function frame(nowMs) {
 
     const aspect = canvas.width / canvas.height;
     renderScene(getViewProjection(aspect));
+    updateFps(nowMs);
 
     // used MDN article for requestAnimationFrame()
     // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame

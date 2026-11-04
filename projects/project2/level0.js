@@ -8,6 +8,9 @@ function setupLevel0() {
     camera.target = [0, 0, 0];
     camera.up = [0, 1, 0];
     camera.fov = 45 * Math.PI / 180;
+
+    setCubeColorSet("rainbow"); // corner colors = corner positions
+    renderSettings.useLighting = false; // show pure color blending
 }
 
 function updateLevel0(timeSeconds) {

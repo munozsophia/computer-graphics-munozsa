@@ -1,5 +1,6 @@
 // gl-utils.js
 // boilerplate for turning shader source strings into a program the GPU can run
+// (Pattern from https://webgl2fundamentals.org/)
 
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
@@ -9,7 +10,7 @@ function createShader(gl, type, source) {
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         const log = gl.getShaderInfoLog(shader);
         gl.deleteShader(shader);
-        throw new Error("Shader compile error: " + log);
+        throw new Error("Shader Compile Error: " + log);
     }
     return shader;
 }
@@ -26,9 +27,7 @@ function createProgram(gl, vertexSource, fragmentSource) {
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
         const log = gl.getProgramInfoLog(program);
         gl.deleteProgram(program);
-        throw new Error("Program link error: " + log);
+        throw new Error("Program Link Error: " + log);
     }
-    gl.deleteShader(vertexShader);
-    gl.deleteShader(fragmentShader);
     return program;
 }
