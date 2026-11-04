@@ -29,6 +29,14 @@ const levels = [
         update: updateLevel2,
         leave: leaveLevel2,
         buildOptions: buildLevel2Options
+    },
+    {
+        name: "Level 3: Skyscape",
+        info: "A sky of cube-built satellites, astronauts and asteroids. Each one follows its own cubic Bezier curve while rotating and pulsing in size, and respawns on a new random curve when it finishes or drifts too far away.",
+        setup: setupLevel3,
+        update: updateLevel3,
+        leave: leaveLevel3,
+        buildOptions: buildLevel3Options
     }
 ];
 
