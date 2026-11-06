@@ -192,7 +192,7 @@ function buildLevel1Options(container) {
     orbitBox.addEventListener("change", () => { level1Orbit = orbitBox.checked; });
 
     orbitLabel.appendChild(orbitBox);
-    orbitLabel.appendChild(document.createTextNode(" Orbit camera"));
+    orbitLabel.appendChild(document.createTextNode(" Orbit Camera"));
     container.appendChild(orbitLabel);
 
     const count = document.createElement("span");

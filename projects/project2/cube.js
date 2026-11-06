@@ -45,8 +45,8 @@ const CUBE_COLOR_PROCEDURES = {
     // color = position. corner (-1,-1,-1) is black, (1,1,1) is white,
     rainbow: (x, y, z) => [(x + 1) / 2, (y + 1) / 2, (z + 1) / 2],
 
-    // gray that gets lighter with height: the bottom vertices (y = -1) are dark,
-    // the top vertices (y = +1) are bright
+    // gray that gets lighter with height: the bottom vertices, y = -1 are dark,
+    // the top vertices, y = +1, are bright
     terrain: (x, y, z) => {
         const shade = 0.3 + 0.7 * ((y + 1) / 2);
         return [shade, shade, shade];
@@ -56,7 +56,7 @@ const CUBE_COLOR_PROCEDURES = {
 function makeCubeColors(procedure) {
     const colors = new Float32Array(24 * 3);
     for (let v = 0; v < 24; v++) {
-        const x = CUBE_POSITIONS[v * 3];
+        const x = CUBE_POSITIONS[v * 3 + 0];
         const y = CUBE_POSITIONS[v * 3 + 1];
         const z = CUBE_POSITIONS[v * 3 + 2];
         colors.set(procedure(x, y, z), v * 3);
@@ -105,12 +105,12 @@ function createCubeMesh(gl) {
     gl.bindBuffer(gl.ARRAY_BUFFER, instanceBuffer);
     const stride = INSTANCE_FLOATS * 4; // bytes
     for (let column = 0; column < 4; column++) {
-        const location = 3 + column;      // a_model uses locations 3, 4, 5, 6
+        const location = 3 + column;      // aModel uses locations 3, 4, 5, 6
        gl.enableVertexAttribArray(location);
        gl.vertexAttribPointer(location, 4, gl.FLOAT, false, stride, column * 16);
        gl.vertexAttribDivisor(location, 1);
     }
-    gl.enableVertexAttribArray(7);      // a_tint
+    gl.enableVertexAttribArray(7);      // aTint
     gl.vertexAttribPointer(7, 3, gl.FLOAT, false, stride, 16 * 4);
     gl.vertexAttribDivisor(7, 1);
  

@@ -11,20 +11,20 @@ const canvas = document.getElementById("glCanvas");
 const levels = [
     {
         name: "Level 0: A Single Cube",
-        info: "A single 2x2x2 cube. Its vertex colors come from its corner positions, and the fragment shader blends between them across each face.",
+        info: "A single 2x2x2 cube. Its vertex colors come from its corner positions and the fragment shader blends between them across each face.",
         setup: setupLevel0,
         update: updateLevel0
     },
     {
         name: "Level 1: Procedural Landscape",
-        info: "A grid of cubes: translated into place, stretched in y by a crater procedure, colored by vertex colors (dark base, light top) plus a height tint, and viewed by an orbiting camera.",
+        info: "A grid of cubes: translated into place, stretched in y by a crater procedure, colored by vertex colors, dark base & light top, plus a height tint, and viewed by an orbiting camera.",
         setup: setupLevel1,
         update: updateLevel1,
         buildOptions: buildLevel1Options
     },
     {
         name: "Level 2: NASA Moon Data",
-        info: "The same cubes, but each column's height and color are sampled from NASA images of the Moon (a grayscale height map and a matching color photo). Pick a resolution to see how the sampling changes.",
+        info: "The same cubes, but each column's height and color are sampled from NASA images of the Moon, a grayscale height map and a matching color photo. Pick a resolution to see how the sampling changes.",
         setup: setupLevel2,
         update: updateLevel2,
         leave: leaveLevel2,
@@ -37,6 +37,14 @@ const levels = [
         update: updateLevel3,
         leave: leaveLevel3,
         buildOptions: buildLevel3Options
+    },
+    {
+        name: "Level 4: Additional Experiments",
+        info: "The full scene: a sun that lights the world and casts shadows, a starfield skybox, a spinning cube Earth, ground haze, and a Realistic / Colorful toggle that switches the palette and the lighting model.",
+        setup: setupLevel4,
+        update: updateLevel4,
+        leave: leaveLevel4,
+        buildOptions: buildLevel4Options
     }
 ];
 
@@ -75,6 +83,7 @@ function buildLevelButtons() {
 let fpsFrames = 0;
 let fpsLastTime = 0;
 
+// update the fps readout every half second
 function updateFps(nowMs) {
     fpsFrames++;
 
@@ -86,6 +95,7 @@ function updateFps(nowMs) {
     }
 }
 
+// main loop, called once per frame by requestAnimationFrame
 function frame(nowMs) {
     const t = nowMs / 1000; // convert milliseconds to seconds
 

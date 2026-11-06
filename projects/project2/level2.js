@@ -143,7 +143,7 @@ function updateLevel2Readout() {
     if (!readout) return;
 
     if (level2Status === "ready") {
-        readout.textContent = (level2Resolution * level2Resolution).toLocaleString() + " cubes";
+        readout.textContent = (level2Resolution * level2Resolution).toLocaleString() + " Cubes";
     } else if (level2Status === "loading") {
         readout.textContent = "Loading images...";
     } else {
@@ -239,7 +239,7 @@ function buildLevel2Options(container) {
     
     // Append the checkbox and label to the container
     orbitLabel.appendChild(orbitBox);
-    orbitLabel.appendChild(document.createTextNode(" Orbit camera"));
+    orbitLabel.appendChild(document.createTextNode(" Orbit Camera"));
     container.appendChild(orbitLabel);
     
     const count = document.createElement("span");

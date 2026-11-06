@@ -31,10 +31,11 @@ function cubicBezier(p0, p1, p2, p3, t) {
     const w2 = 3 * u * t * t;
     const w3 = t * t * t;
 
+    // calculate the point on the curve at parameter t
     return [
-        w0 * p0[0] + w1 * p1[0] + w2 * p2[0] + w3 * p3[0],
-        w0 * p0[1] + w1 * p1[1] + w2 * p2[1] + w3 * p3[1],
-        w0 * p0[2] + w1 * p1[2] + w2 * p2[2] + w3 * p3[2]
+        w0 * p0[0] + w1 * p1[0] + w2 * p2[0] + w3 * p3[0], // x coordinate
+        w0 * p0[1] + w1 * p1[1] + w2 * p2[1] + w3 * p3[1], // y coordinate
+        w0 * p0[2] + w1 * p1[2] + w2 * p2[2] + w3 * p3[2] // z coordinate
     ];
 }
 
@@ -44,6 +45,7 @@ const GRAY = [0.62, 0.64, 0.68];
 const GOLD = [1.0, 0.78, 0.25];
 const SOLAR_BLUE = [0.25, 0.4, 0.95];
 
+// generated using AI
 const SATELLITE_PARTS = [
     { at: [0, 0, 0], size: [0.6, 0.4, 0.4], tint: GRAY }, // body
     { at: [0, 0, 0.42], size: [0.62, 0.42, 0.04], tint: GOLD }, // gold foil band
@@ -55,6 +57,7 @@ const SATELLITE_PARTS = [
     { at: [0, 0.75, 0], size: [0.3, 0.05, 0.3], tint: WHITE } // dish
 ];
 
+// generated using AI
 const ASTRONAUT_PARTS = [
     { at: [0, 0, 0], size: [0.35, 0.45, 0.25], tint: WHITE }, // torso
     { at: [0, 0.78, 0], size: [0.28, 0.28, 0.28], tint: WHITE }, // helmet
@@ -67,6 +70,7 @@ const ASTRONAUT_PARTS = [
     { at: [0.18, -0.85, 0], size: [0.14, 0.38, 0.14], tint: WHITE } // right leg
 ];
  
+// generated using AI
 const ASTEROID_PARTS = [
     { at: [0, 0, 0], size: [0.7, 0.6, 0.65], tint: [0.7, 0.66, 0.6] },
     { at: [0.45, 0.3, -0.2], size: [0.4, 0.4, 0.4], tint: [0.58, 0.55, 0.52] },
@@ -78,14 +82,16 @@ function randomBetween(a, b) {
     return a + (b - a) * level3Random();
 }
 
+// calculate a point on a circle at the given angle, radius, and height
 function pointAt(angle, radius, y) {
     return [radius * Math.cos(angle), y, radius * Math.sin(angle)];
 }
 
+// generate a new random curve for an object
 function newCurve(object) {
     const startAngle = randomBetween(0, Math.PI * 2);
     const endAngle = startAngle + Math.PI + randomBetween(-0.7, 0.7);
-    const bend = randomBetween(-1.0, 1.0);
+    const bend = randomBetween(-1.0, 1.0); // random bend amount for the curve
 
     object.p0 = pointAt(startAngle, LEVEL3_SPAWN_RADIUS, randomBetween(10, 32));
     object.p3 = pointAt(endAngle, LEVEL3_SPAWN_RADIUS, randomBetween(10, 32));
@@ -95,6 +101,7 @@ function newCurve(object) {
     object.duration = randomBetween(object.minDuration, object.maxDuration);
 }
 
+// create a new object with random motion and appearance
 function makeObject(kind, parts, baseScale, minDuration, maxDuration, tumble) {
     const object = {
         kind, parts, baseScale, minDuration, maxDuration,
@@ -110,10 +117,11 @@ function makeObject(kind, parts, baseScale, minDuration, maxDuration, tumble) {
         position: [0, 0, 0]
     };
     newCurve(object);
-    object.t = level3Random();
+    object.t = level3Random(); // start at a random point along the curve
     return object;
 }
 
+// build the list of objects in the sky
 function buildSkyObjects() {
     level3Objects = [];
     
@@ -128,6 +136,7 @@ function buildSkyObjects() {
     }
 }
 
+// calculate the total number of instances needed for the sky objects
 function skyCapacity() {
     let parts = 0;
 
@@ -144,11 +153,15 @@ function smoothstep(x) {
     return c * c * (3 - 2 * c);
 }
 
-function updateSkyObjects(dt, timeSeconds, index) {
-    for (const object of level3Objects) {
-        object.t += dt / object.duration;
+// optional hook that can swap a part's tint (used by the colorful style in level 4)
+let skyTintHook = null;
 
-        // respawn whe curve is finished or object has drifted too far away
+// list defaults to level 3's list, level 4 passes its own
+function updateSkyObjects(dt, timeSeconds, index, list = level3List) {
+    for (const object of level3Objects) {
+        object.t += dt / object.duration; // advance the object along its curve
+
+        // respawn when curve is finished or object has drifted too far away
         const distance = Math.hypot(object.position[0], object.position[2]);
         if (object.t >= 1 || distance > LEVEL3_FAR_LIMIT) {
             newCurve(object);
@@ -157,10 +170,14 @@ function updateSkyObjects(dt, timeSeconds, index) {
         object.position = cubicBezier(object.p0, object.p1, object.p2, object.p3, object.t);
         object.spin += dt;
 
+        // calculate the fade-in and fade-out effect based on the object's position along the curve
         const fade = smoothstep(object.t / 0.06) * smoothstep((1 - object.t) / 0.06);
+        // calculate the pulsing effect based on time and object-specific parameters
         const pulse = 1 + 0.12 * Math.sin(timeSeconds * object.pulseSpeed + object.pulsePhase);
+        // calculate the final scale based on the object's base scale, pulse, and fade
         const s = object.scale * pulse * fade;
 
+        // calculate the placement matrix for the object
         const placement = mat4.multiply(
             mat4.translation(object.position[0], object.position[1], object.position[2]),
             mat4.multiply(
@@ -175,14 +192,16 @@ function updateSkyObjects(dt, timeSeconds, index) {
             )
         );
 
+        // calculate the matrix and tint for each part
         for (const part of object.parts) {
             const partMatrix = mat4.multiply(
                 mat4.translation(part.at[0], part.at[1], part.at[2]),
                 mat4.scaling(part.size[0], part.size[1], part.size[2])
             );
 
-            setInstance(level3List, index++, mat4.multiply(placement, partMatrix),
-                part.tint[0], part.tint[1], part.tint[2]);
+            const tint = skyTintHook ? skyTintHook(part.tint, object.kind) : part.tint;
+
+            setInstance(list, index++, mat4.multiply(placement, partMatrix), tint[0], tint[1], tint[2]);
         }
     }
     return index;
@@ -190,14 +209,18 @@ function updateSkyObjects(dt, timeSeconds, index) {
 
 // Draw the paths of the sky objects for debugging purposes
 function drawPaths(index) {
+    // draw a marker at a position
     const marker = (p, size, tint) => {
+        // calculate the model matrix for the marker
         const model = mat4.multiply(
             mat4.translation(p[0], p[1], p[2]),
             mat4.scaling(size, size, size)
         );
+        // set the instance for the marker
         setInstance(level3List, index++, model, tint[0], tint[1], tint[2]);
     };
     
+    // draw the path samples and control points for each object
     for (const object of level3Objects) {
         for (let i = 0; i <= LEVEL3_PATH_SAMPLES; i++) {
             const p = cubicBezier(object.p0, object.p1, object.p2, object.p3, i / LEVEL3_PATH_SAMPLES);
@@ -214,11 +237,13 @@ function drawPaths(index) {
 // The ground, then the level's setup / update / options.
 function rebuildLevel3Ground() {
     let ground;
+    // build the ground based on the selected kind
     if (level3GroundKind === "moon" && level2Status === "ready") {
         ground = buildMoonLandscape(level3Resolution);
     } else {
         ground = buildLandscape(level3Resolution); // procedural ground from Level 1
     }
+    // calculate the ground count and create the instance list
     level3GroundCount = ground.length / INSTANCE_FLOATS;
     level3List = createInstanceList(level3GroundCount + skyCapacity());
     level3List.set(ground, 0);
@@ -230,8 +255,10 @@ function updateLevel3Readout() {
     if (!readout) {
         return;
     }
+    // update the readout with the current ground and object counts
+    let text = (level3GroundCount + level3Objects.reduce((n, o) => n + o.parts.length, 0)).toLocaleString() + " Cubes";
 
-    let text = (level3GroundCount + level3Objects.reduce((n, o) => n + o.parts.length, 0)).toLocaleString() + " cubes";
+    // add status messages for the moon ground loading state
     if (level3GroundKind === "moon" && level2Status === "loading") {
         text += " (loading Moon images...)";
     } else if (level3GroundKind === "moon" && level2Status === "error") {
@@ -242,8 +269,8 @@ function updateLevel3Readout() {
  
 function setupLevel3() {
     level3Active = true;
-    camera.target = [0, 6, 0];
-    camera.up = [0, 1, 0];
+    camera.target = [0, 6, 0]; // set the camera target
+    camera.up = [0, 1, 0]; // set the camera up vector
  
     setCubeColorSet("terrain");
     renderSettings.useLighting = true;
@@ -251,7 +278,8 @@ function setupLevel3() {
  
     buildSkyObjects();
     rebuildLevel3Ground();
- 
+
+    // load the moon images if they are not already ready
     if (level3GroundKind === "moon" && level2Status !== "ready") {
         loadLevel2Images().then(() => {
         if (level3Active) {
@@ -264,10 +292,12 @@ function setupLevel3() {
 function updateLevel3(timeSeconds) {
     const dt = level3LastTime === null ? 0 : Math.min(timeSeconds - level3LastTime, 0.1);
     level3LastTime = timeSeconds;
- 
+
+    // update the orbit angle
     if (level3Orbit) {
         level3Angle += dt * LEVEL3_ORBIT_SPEED;
     }
+    // update the camera position based on the orbit angle
     camera.eye = [
         camera.target[0] + LEVEL3_ORBIT_RADIUS * Math.cos(level3Angle),
         LEVEL3_ORBIT_HEIGHT,
@@ -276,6 +306,7 @@ function updateLevel3(timeSeconds) {
  
     let index = level3GroundCount; // sky cubes go after the ground cubes
     index = updateSkyObjects(dt, timeSeconds, index);
+    // draw the paths if they are enabled
     if (level3ShowPaths) {
         index = drawPaths(index);
     }
@@ -290,13 +321,15 @@ function buildLevel3Options(container) {
     const groundLabel = document.createElement("label");
     groundLabel.textContent = "Ground: ";
     const groundSelect = document.createElement("select");
-    for (const [value, text] of [["moon", "NASA Moon"], ["procedural", "Procedural craters"]]) {
+    // populate the ground select with available options
+    for (const [value, text] of [["moon", "NASA Moon"], ["procedural", "Procedural Landscape"]]) {
         const option = document.createElement("option");
         option.value = value;
         option.textContent = text;
         option.selected = value === level3GroundKind;
         groundSelect.appendChild(option);
     }
+    // handle ground selection changes
     groundSelect.addEventListener("change", () => {
         level3GroundKind = groundSelect.value;
         rebuildLevel3Ground();
@@ -310,9 +343,11 @@ function buildLevel3Options(container) {
     });
     groundLabel.appendChild(groundSelect);
     container.appendChild(groundLabel);
- 
+
+    // build the grid select control
     const gridLabel = document.createElement("label");
     gridLabel.textContent = "Grid: ";
+
     const gridSelect = document.createElement("select");
     for (const n of LEVEL3_RESOLUTIONS) {
         const option = document.createElement("option");
@@ -322,6 +357,7 @@ function buildLevel3Options(container) {
         gridSelect.appendChild(option);
     }
 
+    // handle grid selection changes
     gridSelect.addEventListener("change", () => {
         level3Resolution = Number(gridSelect.value);
         rebuildLevel3Ground();
@@ -332,12 +368,14 @@ function buildLevel3Options(container) {
  
     const orbitLabel = document.createElement("label");
     const orbitBox = document.createElement("input");
+
+    // build the orbit camera checkbox control
     orbitBox.type = "checkbox";
     orbitBox.checked = level3Orbit;
     orbitBox.addEventListener("change", () => { level3Orbit = orbitBox.checked; });
 
     orbitLabel.appendChild(orbitBox);
-    orbitLabel.appendChild(document.createTextNode(" Orbit camera"));
+    orbitLabel.appendChild(document.createTextNode(" Orbit Camera"));
     container.appendChild(orbitLabel);
  
     const pathsLabel = document.createElement("label");
@@ -348,7 +386,7 @@ function buildLevel3Options(container) {
     pathsBox.addEventListener("change", () => { level3ShowPaths = pathsBox.checked; });
 
     pathsLabel.appendChild(pathsBox);
-    pathsLabel.appendChild(document.createTextNode(" Show Bezier paths"));
+    pathsLabel.appendChild(document.createTextNode(" Show Bezier Paths"));
     container.appendChild(pathsLabel);
  
     const count = document.createElement("span");
