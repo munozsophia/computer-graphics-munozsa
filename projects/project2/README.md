@@ -14,7 +14,7 @@ python -m http.server 8000
 # open http://localhost:8000/
 ```
 
-**Live version:** *(add the deployed link here)*
+**Live version:** *(https://cube-world-sand.vercel.app/)*
 
 ### **Process**
 
