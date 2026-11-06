@@ -11,8 +11,13 @@ const uniformLocations = {};
 const renderSettings = {
     useLighting: false,// false = flat vertex colors (Level 0)
     lightDir: [0.5, 1.0, 0.3], // direction pointing TOWARD the light (the "sun")
-    ambient: 0.3 // minimum brightness on faces turned away from the light
+    ambient: 0.3, // minimum brightness on faces turned away from the light
+    colorSteps: 0, // 0 = smooth light, 3 = colorful bands (Level 4)
+    fogAmount: 0, // 0 = no haze (Level 4 atmosphere)
+    fogColor: [0.1, 0.1, 0.2] // color the haze fades to
 };
+
+const DEFAULT_CLEAR_COLOR = [0.02, 0.02, 0.063]; // the default background color
 
 function initRenderer(canvas) {
     gl = canvas.getContext('webgl2');
@@ -20,15 +25,21 @@ function initRenderer(canvas) {
         throw new Error("WebGL2 is not available in this browser");
     }
 
+    // create the shader program
     program = createProgram(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
-    for (const name of ["uViewProjection", "uUseLighting", "uLightDir", "uAmbient"]) {
+    for (const name of ["uViewProjection", "uUseLighting", "uLightDir", "uAmbient", "uColorSteps", "uFogAmount", "uFogColor"]) {
         uniformLocations[name] = gl.getUniformLocation(program, name);
     }
     cubeMesh = createCubeMesh(gl);
 
     gl.enable(gl.DEPTH_TEST); // near surfaces hide far surfaces (depth buffer)
     gl.enable(gl.CULL_FACE); // cull back-facing triangles
-    gl.clearColor(0.02, 0.02, 0.063, 1); // set the background color
+    setClearColor(DEFAULT_CLEAR_COLOR); // set the background color
+}
+
+// set the background (sky) color the canvas is cleared to every frame
+function setClearColor(color) {
+    gl.clearColor(color[0], color[1], color[2], 1);
 }
 
 function setCubeColorSet(name) {
@@ -78,8 +89,11 @@ function renderScene(viewProjection) {
     gl.useProgram(program); // use the shader program
     gl.uniformMatrix4fv(uniformLocations.uViewProjection, false, viewProjection); // set the view-projection matrix uniform in the shader
     gl.uniform1f(uniformLocations.uUseLighting, renderSettings.useLighting ? 1 : 0);
+    gl.uniform1f(uniformLocations.uColorSteps, renderSettings.colorSteps);
     gl.uniform3fv(uniformLocations.uLightDir, renderSettings.lightDir);
     gl.uniform1f(uniformLocations.uAmbient, renderSettings.ambient);
+    gl.uniform1f(uniformLocations.uFogAmount, renderSettings.fogAmount);
+    gl.uniform3fv(uniformLocations.uFogColor, renderSettings.fogColor);
 
     // draw the instanced cubes
     gl.bindVertexArray(cubeMesh.vao); // bind the vertex array object for the cube mesh
