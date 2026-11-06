@@ -126,7 +126,7 @@ function buildLandscape(n) {
 function updateLevel1Readout() {
     const readout = document.getElementById("level1-count");
     if (readout) {
-        readout.textContent = (level1Resolution * level1Resolution).toLocaleString() + " cubes";
+        readout.textContent = (level1Resolution * level1Resolution).toLocaleString() + " Cubes";
     }
 }
 
