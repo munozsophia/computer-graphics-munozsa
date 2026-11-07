@@ -6,15 +6,7 @@
 
 The goal for this project was to build a landscape and a skyscape in **WebGL2** (no Three.js or other frameworks) using **only one model: a 2x2x2 cube**. Every mountain, crater, satellite, astronaut, star and planet in the scene is that same cube, moved, stretched, rotated and colored by a model matrix. The project is built up over five levels, where each level adds one new idea on top of the last.
 
-**Run it locally:** Level 2 and up load image files, and a browser blocks reading pixels from images opened with `file://` (the canvas becomes "tainted"). Serve the project folder first, then open the page:
-
-```bash
-cd projects/project2
-python -m http.server 8000
-# open http://localhost:8000/
-```
-
-**Live version:** *(https://cube-world-sand.vercel.app/)*
+**Live version:** *https://cube-world-sand.vercel.app/*
 
 ### **Process**
 
@@ -435,4 +427,4 @@ A second, sparser shell just outside the surface makes the clouds. The whole Ear
 ![Level 4 Colorful](images/project2-level4-colorful.png)
 *Level 4: Colorful Style*
 
-[Watch the Demo!]()
+[Watch the Demo!](https://youtu.be/XYNQev5NaLc)

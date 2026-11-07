@@ -14,7 +14,27 @@ depth buffering and shading on the 2D canvas, then moving to the GPU with WebGL2
 | **Instructor** | Dr. Jillian Aurisano |
 | **Student** | Sophia Munoz · [munozsa@mail.uc.edu](mailto:munozsa@mail.uc.edu) |
 | **About me** | Interested in computer graphics and web application development |
-| **Last updated** | October 23, 2026 |
+| **Last updated** | November 5, 2026 |
+
+---
+
+## Featured: Project 2 — Cube World: Mission Control
+
+<img src="projects/project2/images/project2-level4-realistic.png" alt="Project 2, Level 4: cube moon, cube Earth and sun" width="70%">
+
+A WebGL2 landscape and skyscape built from **one model: a 2×2×2 cube**. A satellite-style camera orbits a lunar
+surface sampled from real NASA elevation data, while cube astronauts, satellites and asteroids fly along Bezier
+curves. Everything is drawn with a single instanced draw call.
+
+| Level | What it adds |
+|:-:|---|
+| 0 | A single spinning cube and the page header |
+| 1 | Procedural crater landscape: translation, y-scaling, vertex colors, orbiting look-at camera |
+| 2 | Heights and colors sampled from NASA's CGI Moon Kit images, with a resolution selector |
+| 3 | Sky objects built from cubes, moving on cubic Bezier curves with rotation, scaling and respawning |
+| 4 | Sun lighting with heightfield shadows, starfield skybox, cube Earth, ground haze, and a realistic / colorful toggle |
+
+[📖 Full Write-Up](projects/project2) · [▶️ Watch the Demo](https://youtu.be/XYNQev5NaLc)
 
 ---
 
@@ -31,7 +51,7 @@ The same game is rendered at three levels of fidelity, each written by hand:
 | 2 | 320×200 pixel grid with a DDA line-drawing algorithm |
 | 3 | Filled triangles — edge functions, barycentric coordinates, `1/z` depth buffer, Lambertian shading, Sutherland–Hodgman near-plane clipping |
 
-[📖 Full write-up](projects/project1) · [▶️ Watch the demo](https://youtu.be/mena3BZRrkg)
+[📖 Full Write-Up](projects/project1) · [▶️ Watch the Demo](https://youtu.be/mena3BZRrkg)
 
 ---
 
@@ -42,7 +62,7 @@ The same game is rendered at three levels of fidelity, each written by hand:
 | # | Project | Concepts | Status |
 |:-:|---|---|:-:|
 | 1 | [**Pinhole Camera, Rasterized Display**](projects/project1) | Perspective projection, rasterization, z-buffer, clipping, shading, collision detection | ✅ |
-| 2 | [**Cube World**](projects/project2) | WebGL2, a space-themed landscape and skyscape built from cube models (design and checkpoint done, implementation in progress) | 🚧 |
+| 2 | [**Cube World: Mission Control**](projects/project2) | WebGL2, instanced rendering, matrices, procedural and image-sampled terrain, Bezier curves, Lambert and color shading, heightfield shadows, haze, skybox | ✅ |
 
 ### Homeworks
 
@@ -75,6 +95,7 @@ python3 -m http.server 8000
 | Open | Page |
 |---|---|
 | `http://localhost:8000/projects/project1/` | Project 1 Minigame |
+| `http://localhost:8000/projects/project2/` | Project 2 Cube World |
 | `http://localhost:8000/homeworks/homework2/first-algo-munozsa.html` | Homework 2 Cube |
 | `http://localhost:8000/activities/activity1/psuedopixel-line-drawing-munozsa.html` | Activity 1 Lines |
 
@@ -91,7 +112,7 @@ computer-graphics-munozsa/
 ├── README.md
 ├── projects/
 │   ├── project1/      # Pinhole Camera, Rasterized Display (canvas)
-│   └── project2/      # Cube World (WebGL2) — design checkpoint + starter code
+│   └── project2/      # Cube World: Mission Control (WebGL2)
 ├── homeworks/
 │   └── homework2/     # First Rendering Algorithm
 └── activities/
